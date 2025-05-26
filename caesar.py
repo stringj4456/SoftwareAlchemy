@@ -1,20 +1,24 @@
 #Simple Caesar Cipher. Supports lowercase, uppercase, and space characters
 
+#List of characters
 lower = "abcdefghijklmnopqrstuvwxyz"
 upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-shifted = []
-i = 0
+
+shifted = []    # Store the shifted letters
 
 #Take in inputs
 plaintext = list(input("Enter the string to shift: "))
 shift = int(input("Enter the shift value: "))
+
+plain_index = 0     # Plaintext list index
 
 #Loop through the plaintext word
 for letter in plaintext:
 
     #Space character
     if letter == " ":
-        shifted.append(plaintext[index])
+        shifted.append(plaintext[plain_index])
+        continue
 
     #Lowercase letters
     if letter in lower:
@@ -28,9 +32,12 @@ for letter in plaintext:
         shift_index = upper.index(letter) + shift
         if shift_index > 26:
             shift_index = shift_index % 26
-        shifted.append(plaintext[shift_index])
+        shifted.append(upper[shift_index])
 
-    i += 1
+    plain_index += 1    # Increment through the plaintext list
 
-print(shifted)
+# Join the shifted letters together and print
+output = "".join(shifted)
+print()
+print(f"Your shifted string is {output}")
 
