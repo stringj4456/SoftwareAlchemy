@@ -18,7 +18,6 @@ for letter in plaintext:
     #Space character
     if letter == " ":
         shifted.append(plaintext[plain_index])
-        continue
 
     #Lowercase letters
     if letter in lower:
