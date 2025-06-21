@@ -8,4 +8,10 @@ plaintext = input("Enter the string to hash: ")
 hashed = hashlib.sha256(plaintext.encode()).hexdigest()
 
 stored_hashes.update({plaintext: hashed})
-print(stored_hashes)
+
+with open("file.txt", "a") as w:
+    w.write(stored_hashes[plaintext])
+
+with open("file.txt", "r") as w:
+    print(w.read())
+
