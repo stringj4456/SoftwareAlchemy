@@ -35,6 +35,10 @@ string = input("Enter the string: ")
 while main_i != len(string):
     
     char = string[main_i]   #Get the current letter of the string
+    
+    if char == " ":         #If a space is encountered then skip it
+        main_i += 1
+        continue
 
     if char in found_char:  #Check if the letter has already been found
         main_i += 1
@@ -50,7 +54,8 @@ while main_i != len(string):
 #Display the results of the count
 print()
 for char in found_char:
-    current_char = found_char[print_i]
-    current_count = stored_count[print_i]
-    print(f"Occurrences for {current_char}: {current_count}")
+    current_char = found_char[print_i]      #Get all characters in found_char
+    current_count = stored_count[print_i]   #Get all counts in stored_char
+
+    print(f"Occurrences for {current_char}: {current_count}") #Print the results of all counts
     print_i += 1
