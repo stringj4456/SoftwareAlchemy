@@ -3,15 +3,30 @@
 import hashlib
 
 stored_hashes = {}
+quit_prog = False
 
-plaintext = input("Enter the string to hash: ")
-hashed = hashlib.sha256(plaintext.encode()).hexdigest()
+def hash_plaintext():
+    print()
+    plaintext = input("Enter the string to hash: ")
+    print()
+    hashed = hashlib.sha256(plaintext.encode()).hexdigest()
+    stored_hashes.update({plaintext: hashed})
 
-stored_hashes.update({plaintext: hashed})
 
-with open("file.txt", "a") as w:
-    w.write(stored_hashes[plaintext])
+while quit_prog == False:
+    menu_option = int(input("Enter a menu option: "))
 
-with open("file.txt", "r") as w:
-    print(w.read())
+    if menu_option == 1:
+        hash_plaintext()
+        
+    elif menu_option == 2:
+        with open("file.txt", "w") as w:
+            for value in stored_hashes.values():
+                w.write(str(value) + "\n")
 
+        with open("file.txt", "r") as w:
+            print(w.read())
+
+    elif menu_option == 3:
+        quit_prog = True
+        quit()
