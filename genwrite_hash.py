@@ -43,12 +43,20 @@ def hash_search():
         print()
 
 def load_file():
-    with open("file.txt", "r") as file:
-        file_contents = file.read()
-        file_lines = file_contents.split()
-        print(file_lines)
+    with open("testfile.txt", "r") as file:
+        file_contents = file.read()                 # Read the entire file
+        hashes_to_load = file_contents.split()      # Split each line into a key:value string
 
+    for values in hashes_to_load:                   # Loop through list of key:values
+        to_split = values               
+        split_value = to_split.split(":")           # Split each key:value into separate strings
+        key = split_value[0]                        # Store the key
+        value = split_value[1]                      # Store the value
+
+    print(key)
+    print(value)
 load_file()
+
 
 #Welcome message
 print("Welcome to the GenWriteHash Program")
