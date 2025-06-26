@@ -5,13 +5,16 @@ import hashlib
 stored_hashes = {}
 quit_prog = False
 
+############################################### FUNCTIONS  ###################################################
+
 #Menu options display function
 def display_menu():
     print("1. Hash a string")
-    print("2. Write the hashes to a file")
-    print("3. Read from the file")
-    print("4. Search for a hash")
-    print("5. Quit the program")
+    print("2. Search for a hash")
+    print("3. Write the hashes to a file")
+    print("4. Read from external file")
+    print("5. Load from external file")
+    print("6. Quit the program")
     print()
 
 #Hash generator function
@@ -42,26 +45,25 @@ def hash_search():
         print(f"Could not find hash for {searchtext}")
         print()
 
+#Load keys and values from external file function
 def load_file():
     with open("testfile.txt", "r") as file:
         file_contents = file.read()                 # Read the entire file
-        hashes_to_load = file_contents.split()      # Split each line into a key:value string
+        key_value_list = file_contents.split()      # Split each line into a key:value string
 
-    for values in hashes_to_load:                   # Loop through list of key:values
+    for values in key_value_list:                   # Loop through list of key:values
         to_split = values               
-        split_value = to_split.split(":")           # Split each key:value into separate strings
-        key = split_value[0]                        # Store the key
-        value = split_value[1]                      # Store the value
+        split_values = to_split.split(":")           # Split each key:value into separate strings
+        key = split_values[0]                        # Store the key
+        value = split_values[1]                      # Store the value
+        stored_hashes.update({key: value})           # Store the key and value in the main dict
 
-    print(key)
-    print(value)
-load_file()
 
+################################################## MAIN PROGRAM ################################################
 
 #Welcome message
 print("Welcome to the GenWriteHash Program")
 print()
-
 
 #Main program loop
 while quit_prog == False:
@@ -74,9 +76,15 @@ while quit_prog == False:
         print("Hashing a String.")
         print()
         hash_plaintext()
+    
+    #Search for a hash
+    elif menu_option == 2:
+        print("Searching for a hash.")
+        print()
+        hash_search()
         
     #Write menu option
-    elif menu_option == 2:
+    elif menu_option == 3:
         print("Writing Hashes to a File.")
         print()
         with open("file.txt", "w") as file:
@@ -84,20 +92,18 @@ while quit_prog == False:
                 file.write(str(value) + "\n")
 
     #Read menu option
-    elif menu_option == 3:
+    elif menu_option == 4:
         print("Listing All Hashes.")
         print()
         with open("file.txt", "r") as file:
             print(file.read())
 
-    #Search for a hash
-    elif menu_option == 4:
-        print("Searching for a hash.")
-        print()
-        hash_search()
+    elif menu_option == 5:
+        print("Loading from External File.")
+        load_file()
 
     #Quit program menu option
-    elif menu_option == 5:
+    elif menu_option == 6:
         print("Exiting the Program.")
         print()
         quit_prog = True
