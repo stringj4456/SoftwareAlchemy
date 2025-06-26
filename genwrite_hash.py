@@ -42,9 +42,18 @@ def hash_search():
         print(f"Could not find hash for {searchtext}")
         print()
 
+def load_file():
+    with open("file.txt", "r") as file:
+        file_contents = file.read()
+        file_lines = file_contents.split()
+        print(file_lines)
+
+load_file()
+
 #Welcome message
 print("Welcome to the GenWriteHash Program")
 print()
+
 
 #Main program loop
 while quit_prog == False:
@@ -62,16 +71,16 @@ while quit_prog == False:
     elif menu_option == 2:
         print("Writing Hashes to a File.")
         print()
-        with open("file.txt", "w") as w:
+        with open("file.txt", "w") as file:
             for value in stored_hashes.values():
-                w.write(str(value) + "\n")
+                file.write(str(value) + "\n")
 
     #Read menu option
     elif menu_option == 3:
         print("Listing All Hashes.")
         print()
-        with open("file.txt", "r") as w:
-            print(w.read())
+        with open("file.txt", "r") as file:
+            print(file.read())
 
     #Search for a hash
     elif menu_option == 4:
