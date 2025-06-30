@@ -45,16 +45,27 @@ def hash_search():
         print(f"Could not find hash for {searchtext}")
         print()
 
+#List all keys and values function
+def list_all():
+    for value in stored_hashes.values():
+        print(f"{value}\n")
+
+
+#Write to external file function
 def write_file():
         file_name = input("Enter the file name to write to: ")  
         print()
+
         with open(file_name, "w") as file:
             for key, value in stored_hashes.items():
                 file.write(f"{key}:{value}\n")
 
 #Load keys and values from external file function
 def load_file():
-    with open("testfile.txt", "r") as file:
+    file_name = input("Enter the file name to load: ")
+    print()
+
+    with open(file_name, "r") as file:
         file_contents = file.read()                 # Read the entire file
         key_value_list = file_contents.split()      # Split each line into a key:value string
 
@@ -92,10 +103,9 @@ while quit_prog == False:
 
     #List all hashes
     elif menu_option == 3:
-        print("Listing All Hashes.")
+        print("{:*^30}".format("Listing All Hashes"))
         print()
-        with open("file.txt", "r") as file:
-            print(file.read())
+        list_all()
         
     #Write to external file
     elif menu_option == 4:
@@ -105,17 +115,18 @@ while quit_prog == False:
 
     #Load from external file
     elif menu_option == 5:
-        print("Loading from External File.")
+        print("{:*^45}".format("Loading from External File"))
         print()
         load_file()
 
     #Quit the program
     elif menu_option == 6:
-        print("Exiting the Program.")
+        print("{:*^31}".format("Exiting the Program"))
         print()
         quit_prog = True
         quit()
-
+    
+    #If an invalid menu option is selected
     else:
         print("Invalid menu option. Please enter a valid option")
         print()
