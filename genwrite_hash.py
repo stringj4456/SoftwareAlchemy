@@ -11,9 +11,9 @@ quit_prog = False
 def display_menu():
     print("1. Hash a string")
     print("2. Search for a hash")
-    print("3. Write the hashes to a file")
-    print("4. Read from external file")
-    print("5. Load from external file")
+    print("3. List all hashes")
+    print("4. Write hashes to external file")
+    print("5. Load hashes from external file")
     print("6. Quit the program")
     print()
 
@@ -45,6 +45,13 @@ def hash_search():
         print(f"Could not find hash for {searchtext}")
         print()
 
+def write_file():
+        file_name = input("Enter the file name to write to: ")  
+        print()
+        with open(file_name, "w") as file:
+            for key, value in stored_hashes.items():
+                file.write(f"{key}:{value}\n")
+
 #Load keys and values from external file function
 def load_file():
     with open("testfile.txt", "r") as file:
@@ -71,40 +78,44 @@ while quit_prog == False:
     menu_option = int(input("Enter a menu option: "))
     print()
 
-    #Hashing menu option
+    #Hash a string
     if menu_option == 1:
-        print("Hashing a String.")
+        print("{:*^30}".format("Hashing a String"))
         print()
         hash_plaintext()
     
     #Search for a hash
     elif menu_option == 2:
-        print("Searching for a hash.")
+        print("{:*^34}".format("Searching for a Hash"))
         print()
         hash_search()
-        
-    #Write menu option
-    elif menu_option == 3:
-        print("Writing Hashes to a File.")
-        print()
-        with open("file.txt", "w") as file:
-            for value in stored_hashes.values():
-                file.write(str(value) + "\n")
 
-    #Read menu option
-    elif menu_option == 4:
+    #List all hashes
+    elif menu_option == 3:
         print("Listing All Hashes.")
         print()
         with open("file.txt", "r") as file:
             print(file.read())
+        
+    #Write to external file
+    elif menu_option == 4:
+        print("{:*^40}".format("Writing to External File"))
+        print()
+        write_file()
 
+    #Load from external file
     elif menu_option == 5:
         print("Loading from External File.")
+        print()
         load_file()
 
-    #Quit program menu option
+    #Quit the program
     elif menu_option == 6:
         print("Exiting the Program.")
         print()
         quit_prog = True
         quit()
+
+    else:
+        print("Invalid menu option. Please enter a valid option")
+        print()
