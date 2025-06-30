@@ -2,10 +2,11 @@
 
 import hashlib
 
-stored_hashes = {}
-quit_prog = False
+stored_hashes = {}      # Dictionary storing all of the keys and hashes
+quit_prog = False       # Quit condition for the program
 
 ############################################### FUNCTIONS  ###################################################
+
 
 #Menu options display function
 def display_menu():
@@ -17,24 +18,26 @@ def display_menu():
     print("6. Quit the program")
     print()
 
+
 #Hash generator function
 def hash_plaintext():
-    plaintext = input("Enter the string to hash: ")
+    plaintext = input("Enter the string to hash: ")                 # Plaintext user input
     print()
-    hashed = hashlib.sha256(plaintext.encode()).hexdigest()
-    stored_hashes.update({plaintext: hashed})
+    hashed = hashlib.sha256(plaintext.encode()).hexdigest()         # Hash the plaintext with sha256
+    stored_hashes.update({plaintext: hashed})                       # Store the hash in the stored_hashes dict
+
 
 #Hash search function
 def hash_search():
-    found = False
+    found = False                                                   # Condition on if the search is successful
 
-    searchtext = input("Enter the string to look for: ")
+    searchtext = input("Enter the string to look for: ")            # String to search for
     print()
     search_hash = hashlib.sha256(searchtext.encode()).hexdigest()
     
     #Search for the hash in the dict
     for value in stored_hashes.values():
-        if search_hash == value:
+        if search_hash == value:                                    # If the hash is found in the dict
             found = True
             print("Found!")
             print(f"The SHA256 hash for {searchtext} is: {value}")
@@ -45,20 +48,22 @@ def hash_search():
         print(f"Could not find hash for {searchtext}")
         print()
 
+
 #List all keys and values function
 def list_all():
-    for value in stored_hashes.values():
+    for value in stored_hashes.values():                            # Loop through stored_hashes and print everything
         print(f"{value}\n")
 
 
 #Write to external file function
 def write_file():
-        file_name = input("Enter the file name to write to: ")  
+        file_name = input("Enter the file name to write to: ")      # Get the file name to write to
         print()
 
-        with open(file_name, "w") as file:
+        with open(file_name, "w") as file:                          # Open the file, loop, and write to it
             for key, value in stored_hashes.items():
                 file.write(f"{key}:{value}\n")
+
 
 #Load keys and values from external file function
 def load_file():
