@@ -90,9 +90,22 @@ print()
 
 #Main program loop
 while quit_prog == False:
-    display_menu()
-    menu_option = int(input("Enter a menu option: "))
-    print()
+    display_menu()          # Display the menu options
+
+    #Menu options input
+    while True:
+        try:
+            menu_option = int(input("Enter a menu option: "))                # Get the users menu option
+            print()
+            if menu_option < 1 or menu_option > 6:                           # Check if the menu option is in range
+                print("Invalid menu option. Please enter a valid option")
+                print()
+            break                                                            # Exit the loop is input is valid
+    
+        except ValueError:                                      # If a non integer is entered as a menu option
+            print()
+            print("Invalid input. Please enter an integer")
+            print()
 
     #Hash a string
     if menu_option == 1:
@@ -126,12 +139,7 @@ while quit_prog == False:
 
     #Quit the program
     elif menu_option == 6:
-        print("{:*^31}".format("Exiting the Program"))
+        print("{:*^31}".format("Quitting the Program"))
         print()
         quit_prog = True
         quit()
-    
-    #If an invalid menu option is selected
-    else:
-        print("Invalid menu option. Please enter a valid option")
-        print()
