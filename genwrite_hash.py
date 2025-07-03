@@ -22,9 +22,10 @@ def display_menu():
 #Hash generator function
 def hash_plaintext():
     plaintext = input("Enter the string to hash: ")                 # Plaintext user input
-    print()
     hashed = hashlib.sha256(plaintext.encode()).hexdigest()         # Hash the plaintext with sha256
     stored_hashes.update({plaintext: hashed})                       # Store the hash in the stored_hashes dict
+    print(f"Your SHA256 hash is: {hashed}")
+    print()
 
 
 #Hash search function
