@@ -1,4 +1,5 @@
 #This program will allow a user to enter a string to be hashed. Once hashed, it will be stored in a dictionary.
+#The program will utilize SHA256 as the hashing algorithm.
 
 import hashlib
 
@@ -94,14 +95,14 @@ while quit_prog == False:
     display_menu()          # Display the menu options
 
     #Menu options input
-    while True:
+    while True:                                                              # Loop the menu choice until the user enters a valid choice 
         try:
             menu_option = int(input("Enter a menu option: "))                # Get the users menu option
             print()
             if menu_option < 1 or menu_option > 6:                           # Check if the menu option is in range
                 print("Invalid menu option. Please enter a valid option")
                 print()
-            break                                                            # Exit the loop is input is valid
+            break                                                            # Exit the loop if input is valid
     
         except ValueError:                                      # If a non integer is entered as a menu option
             print()
