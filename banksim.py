@@ -24,20 +24,48 @@ class BankAccount:
 #Create a new bank account function
 def new_account():
     name = input("Name of the account holder: ")                  # Get the name of the account holder
-    balance = float(input("Initial deposit amount: $"))            # Get the accounts intial deposit amount
+    print()
+    balance = float(input("Initial deposit amount: $"))           # Get the accounts intial deposit amount
     number = random.randint(100000000, 999999999)                 # Generate an account number
     aid = random.randint(1000, 5000)                              # Generate an account ID
 
     print()
     print(f"Congratulations on your new account {name}! Your unique account ID is: {aid}")
+
+    account = BankAccount(name, balance, number, aid)             # Create the account object
+    bank_accounts.update({aid: account})                          # Add the object to bank_accounts dict
+
+#Make account withdrawal function
+def make_withdrawal():
+    found = False
+    aid = int(input("Enter your account ID: "))                         # Get the accound ID
     print()
+    
+    #Search for the associated bank account
+    for key in bank_accounts:
+        if aid == key:                                                  # If the account is found
+            print(f"Hello, {bank_accounts[aid].name}")
+            print()
+            amount = float(input("Enter the amount to withdraw: $"))    # Get the withdrawal amount
+            print()
 
-    account = BankAccount(name, balance, number, aid)             # Create the new bank account
-    bank_accounts.update({aid: account})                          # Add the new account to bank_accounts dict
+            bank_accounts[aid].withdraw(amount)                         # Call the withdraw method
 
+            print(f"Successfully withdrew ${amount:.2f}")
+            print()
+            print(f"Your new account balance is: ${bank_accounts[aid].balance:.2f}")
+
+            #Set the found condition and break out of the loop
+            found = True
+            break
+
+    #If the account is not found
+    if found == False:
+        print("Could not find an associated account with that ID")
 
 #Display menu options function
 def menu_display():
+    print()
     print("1. Add a new bank account")
     print("2. Make a deposit")
     print("3. Make a withdrawal")
@@ -47,7 +75,6 @@ def menu_display():
 
 #Print the welcome message
 print("Welcome to SimBank!")
-print()
 
 #Main program loop
 while quit_prog == False:
@@ -57,7 +84,10 @@ while quit_prog == False:
     print()
 
     if menu_option == 1:
-          new_account()
+        new_account()
+
+    elif menu_option == 3:
+        make_withdrawal()
 
     elif menu_option == 4:
         print("Thanks for visiting us. We hope to see you again soon")
