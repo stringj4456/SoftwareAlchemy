@@ -94,13 +94,34 @@ def make_withdrawal():
         print("Could not find an associated account with that ID")
 
 
+#Display account details function
+def account_info():
+    found = False
+    aid = int(input("Enter your account ID: "))                         # Get the account ID
+    print()
+
+    #Search for the associated bank account
+    for key in bank_accounts:
+        if aid == key:
+            print(f"Account Number: {bank_accounts[aid].number}")
+            print(f"Holder: {bank_accounts[aid].name}")
+            print(f"Balance: ${bank_accounts[aid].balance:.2f}")
+            print(f"Account ID: {bank_accounts[aid].aid}")
+            found = True
+            break
+
+    #If the account is not found
+    if found == False:
+        print("Could not find an associated account with that ID")
+
 #Display menu options function
 def menu_display():
     print()
     print("1. Add a new bank account")
     print("2. Make a deposit")
     print("3. Make a withdrawal")
-    print("4. Quit the program")
+    print("4. Display account details")
+    print("5. Quit the program")
     print()
 
 
@@ -126,11 +147,12 @@ while quit_prog == False:
     elif menu_option == 3:
         make_withdrawal()
 
-    #Quit the program
     elif menu_option == 4:
+        account_info()
+
+    #Quit the program
+    elif menu_option == 5:
         print("Thanks for visiting us. We hope to see you again soon")
         print("Goodbye!")
         quit_prog = True
         quit
-
-
