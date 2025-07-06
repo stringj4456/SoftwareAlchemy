@@ -2,6 +2,7 @@
 #work with classes and get a grasp of OOP.
 
 from argon2 import PasswordHasher
+from argon2.exceptions import VerifyMismatchError
 import random
 
 bank_accounts = {}                                   # Store the bank accounts
@@ -28,6 +29,12 @@ class User:
         self.ph = PasswordHasher()
         self.password = self.ph.hash(password)
         self.aid = aid
+    
+    def verify_pass(self, attempt):
+        try:
+            return self.ph.verify(self.password, attempt)
+        except VerifyMismatchError:
+            return False
 
 
 #Create a new bank account function
@@ -49,8 +56,6 @@ def new_account():
 
     account = BankAccount(name, balance, number, aid)             # Create the account object
     bank_accounts.update({user: account})                         # Add the object to bank_accounts dict
-
-
 
 
 #Make account deposit function
