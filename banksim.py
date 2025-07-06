@@ -1,6 +1,7 @@
 #This project is a bank account simulator and will include features such as adding deposits and withdrawing funds. The goal here is to learn to
 #work with classes and get a grasp of OOP.
 
+from argon2 import PasswordHasher
 import random
 
 bank_accounts = {}                                   # Store the bank accounts
@@ -20,6 +21,14 @@ class BankAccount:
     def withdraw(self, amount):
         self.balance -= amount
 
+#User class
+class User:
+    def __init__(self, username, password, aid):
+        self.username = username
+        self.ph = PasswordHasher()
+        self.password = self.ph.hash(password)
+        self.aid = aid
+
 
 #Create a new bank account function
 def new_account():
@@ -30,10 +39,18 @@ def new_account():
     aid = random.randint(1000, 5000)                              # Generate an account ID
 
     print()
+    username = input("Please enter a username: ") 
+    print()
+    plaintext = input("Please enter a password: ")
+    user = User(username, plaintext, aid)
+
+    print()
     print(f"Congratulations on your new account {name}! Your unique account ID is: {aid}")
 
     account = BankAccount(name, balance, number, aid)             # Create the account object
-    bank_accounts.update({aid: account})                          # Add the object to bank_accounts dict
+    bank_accounts.update({user: account})                         # Add the object to bank_accounts dict
+
+
 
 
 #Make account deposit function
@@ -114,6 +131,7 @@ def account_info():
     if found == False:
         print("Could not find an associated account with that ID")
 
+
 #Display menu options function
 def menu_display():
     print()
@@ -146,7 +164,8 @@ while quit_prog == False:
     #Make an account withdrawal
     elif menu_option == 3:
         make_withdrawal()
-
+    
+    #Display account details
     elif menu_option == 4:
         account_info()
 
