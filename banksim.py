@@ -32,7 +32,8 @@ class User:
     
     def verify_pass(self, attempt):
         try:
-            return self.ph.verify(self.password, attempt)
+            result = self.ph.verify(self.password, attempt)
+            return result
         except VerifyMismatchError:
             return False
 
@@ -61,31 +62,20 @@ def new_account():
 #Make account deposit function
 def make_deposit():
     found = False
-    aid = int(input("Enter your account ID: "))                         # Get the account ID
-    print()
+    auth = PasswordHasher()
+
+    username = input("Please enter your username: ")
+    plaintext = input("Please enter your password: ")
     
     #Search for the associated bank account
-    for key in bank_accounts:
-        if aid == key:                                                  # If the account is found
-            print(f"Hello, {bank_accounts[aid].name}")
-            print()
-            amount = float(input("Enter the amount to deposit: $"))     # Get the deposit amount
-            print()
-
-            bank_accounts[aid].deposit(amount)                          # Call the deposit method
-
-            print(f"Successfully deposited ${amount:.2f}")
-            print()
-            print(f"Your current account balance is: ${bank_accounts[aid].balance:.2f}")
-
-            #Set the found condition and break out of the loop
+    for user in bank_accounts:
+        if username == user.username and user.verify_pass(plaintext):
+            print("Successfully authenticated")
             found = True
             break
 
-    #If the account is not found
     if found == False:
-        print("Could not find an associated account with that ID")
-
+        print("Failed")
 
 #Make account withdrawal function
 def make_withdrawal():
