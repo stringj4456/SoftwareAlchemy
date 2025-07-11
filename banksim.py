@@ -70,8 +70,19 @@ def make_deposit():
     #Search for the associated bank account
     for user in bank_accounts:
         if username == user.username and user.verify_pass(plaintext):
-            print("Successfully authenticated")
             found = True
+            name = bank_accounts[user].name
+            print(f"Hello, {name}")
+            print()
+
+            deposit = float(input("Enter the deposit amount: $"))
+            bank_accounts[user].deposit(deposit)
+
+            print()
+            print(f"Successfully deposited ${deposit:.2f}")
+            print()
+            print(f"Your new balance is: ${bank_accounts[user].balance:.2f}")
+
             break
 
     if found == False:
