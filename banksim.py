@@ -45,6 +45,7 @@ def authenticate():
     username = input("Please enter your username: ")
     print()
     plaintext = input("Please enter your password: ")
+    print()
 
     #Loop and search for the account
     for user in bank_accounts:
@@ -127,28 +128,25 @@ def make_withdrawal():
 
     #If the account is not found
     if found == False:
-        print("Could not find an associated account with that ID")
+        print("Your username or password is incorrect")
 
 
 #Display account details function
 def account_info():
-    found = False
-    aid = int(input("Enter your account ID: "))                         # Get the account ID
-    print()
+    auth = authenticate()       # Authenticate the user
+    found = auth[0]             # Store the found account condition
+    user = auth[1]             # Store the index of the found account
 
     #Search for the associated bank account
-    for key in bank_accounts:
-        if aid == key:
-            print(f"Account Number: {bank_accounts[aid].number}")
-            print(f"Holder: {bank_accounts[aid].name}")
-            print(f"Balance: ${bank_accounts[aid].balance:.2f}")
-            print(f"Account ID: {bank_accounts[aid].aid}")
-            found = True
-            break
+    if found == True:
+        print(f"Account Number: {bank_accounts[user].number}")
+        print(f"Holder: {bank_accounts[user].name}")
+        print(f"Balance: ${bank_accounts[user].balance:.2f}")
+        print(f"Account ID: {bank_accounts[user].aid}")
 
     #If the account is not found
-    if found == False:
-        print("Could not find an associated account with that ID")
+    else:
+        print("Your username or password is incorrect")
 
 
 #Display menu options function
