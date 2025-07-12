@@ -37,6 +37,23 @@ class User:
         except VerifyMismatchError:
             return False
 
+#Authenticate user function
+def authenticate():
+    found = False       # If the account is found
+
+    #Get the username/password
+    username = input("Please enter your username: ")
+    print()
+    plaintext = input("Please enter your password: ")
+
+    #Loop and search for the account
+    for user in bank_accounts:
+        if username == user.username and user.verify_pass(plaintext):       #If a match is found
+            index = user
+            found = True
+            break
+
+    return found, index     #Return the found account condition and index of the found user
 
 #Create a new bank account function
 def new_account():
@@ -61,32 +78,28 @@ def new_account():
 
 #Make account deposit function
 def make_deposit():
-    found = False
-    auth = PasswordHasher()
+    auth = authenticate()       # Authenticate the user
+    found = auth[0]             # Store the found account condition
+    index = auth[1]             # Store the index of the found account
 
-    username = input("Please enter your username: ")
-    plaintext = input("Please enter your password: ")
-    
     #Search for the associated bank account
-    for user in bank_accounts:
-        if username == user.username and user.verify_pass(plaintext):
-            found = True
-            name = bank_accounts[user].name
-            print(f"Hello, {name}")
-            print()
+    if found == True:
+        name = bank_accounts[index].name
+        print(f"Hello, {name}")
+        print()
 
-            deposit = float(input("Enter the deposit amount: $"))
-            bank_accounts[user].deposit(deposit)
+        deposit = float(input("Enter the deposit amount: $"))       # Get the deposit amount
+        bank_accounts[index].deposit(deposit)                       # Call the deposit method
 
-            print()
-            print(f"Successfully deposited ${deposit:.2f}")
-            print()
-            print(f"Your new balance is: ${bank_accounts[user].balance:.2f}")
+        print()
+        print(f"Successfully deposited ${deposit:.2f}")
+        print()
+        print(f"Your new balance is: ${bank_accounts[index].balance:.2f}")
+    
+    #If the account is not found
+    else:
+        print("Your username or password is incorrect")
 
-            break
-
-    if found == False:
-        print("Failed")
 
 #Make account withdrawal function
 def make_withdrawal():
