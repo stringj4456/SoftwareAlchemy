@@ -10,11 +10,10 @@ quit_prog = False                                    # Program quit condition
 
 #Bank account class
 class BankAccount:
-    def __init__(self, name, balance, number, aid):
+    def __init__(self, name, balance, number):
         self.name = name                                          # Name of the account holder
         self.balance = balance                                    # Balance of the account
         self.number = number                                      # Account number
-        self.aid = aid                                            # Account ID
 
     def deposit(self, amount):                                    # Deposit funds method
         self.balance += amount
@@ -40,6 +39,7 @@ class User:
 #Authenticate user function
 def authenticate():
     found = False       # If the account is found
+    index = None
 
     #Get the username/password
     username = input("Please enter your username: ")
@@ -54,7 +54,8 @@ def authenticate():
             found = True
             break
 
-    return found, index     #Return the found account condition and index of the found user
+    return found, index
+
 
 #Create a new bank account function
 def new_account():
@@ -62,16 +63,15 @@ def new_account():
     print()
     balance = float(input("Initial deposit amount: $"))
     number = random.randint(100000000, 999999999)                 # Generate an account number
-    aid = random.randint(1000, 5000)                              # Generate an account ID
 
     print()
     username = input("Please enter a username: ") 
     print()
     plaintext = input("Please enter a password: ")
-    user = User(username, plaintext, aid)
+    user = User(username, plaintext, aid)                         # Create the user object
 
     print()
-    print(f"Congratulations on your new account {name}! Your unique account ID is: {aid}")
+    print(f"Congratulations on your new account {name}!")
 
     account = BankAccount(name, balance, number, aid)             # Create the account object
     bank_accounts.update({user: account})                         # Add the object to bank_accounts dict
@@ -129,16 +129,15 @@ def make_withdrawal():
 
 #Display account details function
 def account_info():
-    auth = authenticate()       # Authenticate the user
-    found = auth[0]             # Store the found account condition
-    user = auth[1]              # Store the index of the found account
+    auth = authenticate()
+    found = auth[0]
+    user = auth[1]
 
     #Search for the associated bank account
     if found == True:
         print(f"Account Number: {bank_accounts[user].number}")
         print(f"Holder: {bank_accounts[user].name}")
         print(f"Balance: ${bank_accounts[user].balance:.2f}")
-        print(f"Account ID: {bank_accounts[user].aid}")
 
     #If the account is not found
     else:
