@@ -16,21 +16,21 @@ class BankAccount:
         self.number = number                                      # Account number
         self.aid = aid                                            # Account ID
 
-    def deposit(self, amount):
+    def deposit(self, amount):                                    # Deposit funds method
         self.balance += amount
 
-    def withdraw(self, amount):
+    def withdraw(self, amount):                                   # Withdraw funds method
         self.balance -= amount
 
 #User class
 class User:
     def __init__(self, username, password, aid):
-        self.username = username
-        self.ph = PasswordHasher()
-        self.password = self.ph.hash(password)
-        self.aid = aid
+        self.username = username                                # Account username
+        self.ph = PasswordHasher()                              # Password hasher object
+        self.password = self.ph.hash(password)                  # Password hash
+        self.aid = aid                                          # Account ID
     
-    def verify_pass(self, attempt):
+    def verify_pass(self, attempt):                             # Check password hash method
         try:
             result = self.ph.verify(self.password, attempt)
             return result
@@ -49,7 +49,7 @@ def authenticate():
 
     #Loop and search for the account
     for user in bank_accounts:
-        if username == user.username and user.verify_pass(plaintext):       #If a match is found
+        if username == user.username and user.verify_pass(plaintext):
             index = user
             found = True
             break
@@ -58,9 +58,9 @@ def authenticate():
 
 #Create a new bank account function
 def new_account():
-    name = input("Name of the account holder: ")                  # Get the name of the account holder
+    name = input("Name of the account holder: ")
     print()
-    balance = float(input("Initial deposit amount: $"))           # Get the accounts intial deposit amount
+    balance = float(input("Initial deposit amount: $"))
     number = random.randint(100000000, 999999999)                 # Generate an account number
     aid = random.randint(1000, 5000)                              # Generate an account ID
 
@@ -89,7 +89,7 @@ def make_deposit():
         print(f"Hello, {name}")
         print()
 
-        deposit = float(input("Enter the deposit amount: $"))       # Get the deposit amount
+        deposit = float(input("Enter the deposit amount: $"))       # Deposit amount
         bank_accounts[index].deposit(deposit)                       # Call the deposit method
 
         print()
@@ -104,30 +104,26 @@ def make_deposit():
 
 #Make account withdrawal function
 def make_withdrawal():
-    found = False
-    aid = int(input("Enter your account ID: "))                         # Get the account ID
-    print()
+    auth = authenticate() 
+    found = auth[0]
+    user = auth[1]
     
     #Search for the associated bank account
-    for key in bank_accounts:
-        if aid == key:                                                  # If the account is found
-            print(f"Hello, {bank_accounts[aid].name}")
-            print()
-            amount = float(input("Enter the amount to withdraw: $"))    # Get the withdrawal amount
-            print()
+    if found == True:
+        name = bank_accounts[user].name
+        print(f"Hello, {name}")
+        print()
 
-            bank_accounts[aid].withdraw(amount)                         # Call the withdraw method
+        withdraw = float(input("Enter the amount to withdraw: $"))          # Withdrawal amount
+        bank_accounts[user].withdraw(withdraw)                              # Call withdraw method
 
-            print(f"Successfully withdrew ${amount:.2f}")
-            print()
-            print(f"Your new account balance is: ${bank_accounts[aid].balance:.2f}")
-
-            #Set the found condition and break out of the loop
-            found = True
-            break
+        print()
+        print(f"Successfully withdrew ${withdraw:.2f}")
+        print()
+        print(f"Your new account balance is: ${bank_accounts[user].balance:.2f}")
 
     #If the account is not found
-    if found == False:
+    else:
         print("Your username or password is incorrect")
 
 
@@ -135,7 +131,7 @@ def make_withdrawal():
 def account_info():
     auth = authenticate()       # Authenticate the user
     found = auth[0]             # Store the found account condition
-    user = auth[1]             # Store the index of the found account
+    user = auth[1]              # Store the index of the found account
 
     #Search for the associated bank account
     if found == True:
