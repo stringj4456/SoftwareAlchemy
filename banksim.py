@@ -38,7 +38,7 @@ class User:
 
 #Authenticate user function
 def authenticate():
-    found = False       # If the account is found
+    found = False
     index = None
 
     #Get the username/password
